@@ -3,24 +3,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels: # 当前deployment的标签，提供给service进行选择
-    app: fcredit #项目/应用名称，取git仓库分组的标识串
-    component: front-base-vue #模块/所属分组
+    app: {{group-name}} #项目/应用名称，取git仓库分组的标识串
+    component: {{project-name}} #模块/所属分组
     tier: frontend #按照部署架构层的分类，比如前端、后端、网关等
-  name: front-base-vue #当前工程名称，取git仓库的项目标识串
-  namespace: fcredit #项目的命名空间，取git仓库分组的标识串
+  name: {{project-name}} #当前工程名称，取git仓库的项目标识串
+  namespace: {{group-name}} #项目的命名空间，取git仓库分组的标识串
 spec:
   progressDeadlineSeconds: 600 #升级过程最大时间
   replicas: 2 #部署的副本数量
   selector: 
     matchLabels: #labels标签选择器，用以选择符合标签的容器实例
-      app: fcredit
-      component: front-base-vue
+      app: {{group-name}}
+      component: {{project-name}}
       tier: frontend
   template:
     metadata: 
       labels: #容器的标签，用以选择符合标签的容器实例
-        app: fcredit
-        component: front-base-vue
+        app: {{group-name}}
+        component: {{project-name}}
         tier: frontend
     spec:
       volumes:
@@ -45,7 +45,7 @@ spec:
             failureThreshold: 30 #检查次数
             periodSeconds: 5 #检查间隔
           imagePullPolicy: Always
-          name: front-base-vue
+          name: {{project-name}}
           ports:
             - containerPort: 80
               protocol: TCP
@@ -73,20 +73,20 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: fcredit
-    component: front-base-vue
-  name: front-base-vue
-  namespace: fcredit
+    app: {{group-name}}
+    component: {{project-name}}
+  name: {{project-name}}
+  namespace: {{group-name}}
 spec:
   ports:
     - name: http
       port: 8080 #svc端口
       protocol: TCP
       targetPort: 80 #deploy端口
-      nodePort: 30080 #对外端口，找运维确认
+      nodePort: {{port}} #对外端口，找运维确认
   selector:
-    app: fcredit
-    component: front-base-vue
+    app: {{group-name}}
+    component: {{project-name}}
     tier: frontend
   sessionAffinity: None
   type: NodePort
