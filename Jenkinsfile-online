@@ -64,12 +64,15 @@ pipeline {
 	stage('使用cnpm进行install更新依赖') {
 		steps {
 			container('nodejs') {
-        //安装cnpm
-        sh 'npm install -g cnpm@7.1.1 --registry=https://registry.npm.taobao.org'
+        /* //安装cnpm
+        // sh 'npm install -g cnpm@7.1.1 --registry=https://registry.npm.taobao.org'
         // 使用淘宝镜像
-        sh 'npm config set registry https://registry.npm.taobao.org'
+        // sh 'npm config set registry https://registry.npm.taobao.org' // 目前禁用，淘宝已换源
         //使用cnpm进行install更新依赖
-        sh 'cnpm i --no-package-lock'
+        // sh 'cnpm i --no-package-lock' */
+        // sh 'npm i nrm -g && nrm add haier http://npm.haier.net/ && nrm use haier' // 目前禁用，因nrm包出现网络波动问题
+        // sh 'npm config set registry http://npm.haier.net/'  // 设置haier源，如需要安装haier相关包，请打开
+        sh 'npm i --no-package-lock'
 			}
 
 		}
