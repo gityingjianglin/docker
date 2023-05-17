@@ -10,7 +10,7 @@ metadata:
   namespace: {{group-name}} #项目的命名空间，取git仓库分组的标识串
 spec:
   progressDeadlineSeconds: 600 #升级过程最大时间
-  replicas: 2 #部署的副本数量
+  replicas: 1 #部署的副本数量
   selector: 
     matchLabels: #labels标签选择器，用以选择符合标签的容器实例
       app: {{group-name}}
