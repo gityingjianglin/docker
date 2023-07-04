@@ -111,9 +111,6 @@ pipeline {
     }
 
     stage('部署到dev环境') {
-      when{
-        branch 'master'
-      }
       steps {
         // input(id: 'deploy-to-dev', message: '@19000579  部署dev审核')
         kubernetesDeploy(configs: 'deploy-svc.yaml', enableConfigSubstitution: true, kubeconfigId: "$KUBECONFIG_CREDENTIAL_ID")
